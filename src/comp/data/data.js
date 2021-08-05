@@ -4,8 +4,32 @@ import {MapView, FirstPersonView} from '@deck.gl/core';
 import { StaticMap } from "react-map-gl";
 import React, { Component } from "react";
 import axios from "axios";
+import Select from 'react-select';
 import { RenderLayers } from "../deck-gl-l.jsx";
+import covid from '../../asset/covid_icon.svg';
 let datas;
+const options = [
+  { value: '26', label: '26th July' },
+  { value: '2', label: '2nd August' },
+  { value: '4', label: '4th August' }, 
+];
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    fontSize: 14,
+    padding:'3px',
+    width: '169px',
+    borderBottom: 'solid blue',
+    color: state.isSelected ? 'darkgreen' : 'black',
+    backgroundColor: state.isSelected ? 'lightblue' : 'white'
+  }),
+  control: (provided) => ({
+    ...provided,
+    
+  })
+}
+
+
 
 class Data extends Component {
   state = {};
@@ -13,14 +37,21 @@ class Data extends Component {
     super();
     this.state = {
       datas: [],
-      selectOptions : [],
+      selectOption :null,
       id: "",
       name: ''
     };
   }
+
   componentDidMount() {
     this.fetchData();
   }
+
+  selectionChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
+  
   fetchData() {
     axios.all([
       axios.get('https://disease.sh/v2/countries?allowNull=false'),
@@ -44,6 +75,7 @@ class Data extends Component {
   }
   render() {
     const { datas } = this.state;
+    const { selectedOption } = this.state;
     
     
     const INITIAL_VIEW_STATE = {
@@ -58,13 +90,14 @@ class Data extends Component {
     
     <React.Fragment>
       
-      <div style={{ height: '10%' }}>
+      <div style={{ padding: '30px' }}>
       <DeckGL
        initialViewState={INITIAL_VIEW_STATE}
-       height="98%"
-       width="98%"
+       height="100%"
+       width="100%"
        controller={true} 
-       layers={RenderLayers({ data: datas})} 
+       layers={RenderLayers({ option: selectedOption})} 
+       getTooltip={({object}) => object && `${object.district}\ncases: ${object.active}\nDeath: ${object.death}`}
       >
         <MapView id="map" width="100%" controller={true}>
         <StaticMap
@@ -73,8 +106,20 @@ class Data extends Component {
           
          />
          </MapView>
-         <FirstPersonView width="80%" x="100%" y="100%" fovy={10} />
+         <FirstPersonView width="100%" x="100%" y="100%" fovy={10} />
       </DeckGL>
+      </div>
+      <div style={{ position:'absolute',padding:'10px', backgroundColor:'black', height: '160px', width:'170px',marginLeft:'20px', borderRadius: 10  }}>
+      <img src={covid} width='75px' alt="Covid 19" />
+        <Select 
+        defaultValue={options[1]}
+        onChange={this.selectionChange}
+        placeholder = "Select Date .."
+        styles = { customStyles }
+        options = {options} />
+
+        
+
       </div>
       
       
