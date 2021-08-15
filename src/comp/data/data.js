@@ -7,11 +7,14 @@ import axios from "axios";
 import Select from 'react-select';
 import { RenderLayers } from "../deck-gl-l.jsx";
 import covid from '../../asset/covid_icon.svg';
-let datas;
+//let datas;
 const options = [
   { value: '26', label: '26th July' },
   { value: '2', label: '2nd August' },
   { value: '4', label: '4th August' }, 
+  { value: '9', label: '9th August' },
+  { value: '14', label: '14th August' },
+   
 ];
 const customStyles = {
   option: (provided, state) => ({
@@ -44,7 +47,8 @@ class Data extends Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+   // this.fetchData();
+   console.log("Component mounted")
   }
 
   selectionChange = (selectedOption) => {
@@ -74,14 +78,14 @@ class Data extends Component {
     })
   }
   render() {
-    const { datas } = this.state;
+    //const { datas } = this.state;
     const { selectedOption } = this.state;
     
     
     const INITIAL_VIEW_STATE = {
       latitude: 23,
       longitude: 90,
-      zoom: 8,
+      zoom: 6,
       bearing: 68,
       pitch: 55
     }; 
@@ -109,10 +113,10 @@ class Data extends Component {
          <FirstPersonView width="100%" x="100%" y="100%" fovy={10} />
       </DeckGL>
       </div>
-      <div style={{ position:'absolute',padding:'10px', backgroundColor:'black', height: '160px', width:'170px',marginLeft:'20px', borderRadius: 10  }}>
+      <div style={{ position:'absolute',padding:'10px', backgroundColor:'black', height: '180px', width:'170px',marginLeft:'20px', borderRadius: 10, opacity:0.89  }}>
       <img src={covid} width='75px' alt="Covid 19" />
         <Select 
-        defaultValue={options[1]}
+        defaultValue={options[4]}
         onChange={this.selectionChange}
         placeholder = "Select Date .."
         styles = { customStyles }
