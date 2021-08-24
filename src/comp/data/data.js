@@ -14,6 +14,7 @@ const options = [
   { value: '4', label: '4th August' }, 
   { value: '9', label: '9th August' },
   { value: '14', label: '14th August' },
+  { value: '20', label: '20th August' },
    
 ];
 const customStyles = {
@@ -116,7 +117,7 @@ class Data extends Component {
       <div style={{ position:'absolute',padding:'10px', backgroundColor:'black', height: '180px', width:'170px',marginLeft:'20px', borderRadius: 10, opacity:0.89  }}>
       <img src={covid} width='75px' alt="Covid 19" />
         <Select 
-        defaultValue={options[4]}
+        defaultValue={options[5]}
         onChange={this.selectionChange}
         placeholder = "Select Date .."
         styles = { customStyles }

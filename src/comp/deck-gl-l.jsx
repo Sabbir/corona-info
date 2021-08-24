@@ -11,8 +11,8 @@ export const RenderLayers = (props) => {
        
     let dat = de2.map(function (location) {
         return {
-          active: location.ca_148,
-          death: location.de_148,
+          active: location.ca_208,
+          death: location.de_208,
           district: location.district,
           coordinates: [location.lon, location.lat]
         };
@@ -65,6 +65,17 @@ export const RenderLayers = (props) => {
         });
         console.log(dat);
        }
+       if(option.value==="14"){
+        dat = de2.map(function (location) {
+        return {
+          active: location.ca_148,
+          death: location.de_148,
+          district: location.district,
+          coordinates: [location.lon, location.lat]
+        };
+      });
+      
+     }
           
       }  
     maxActive = Math.max(6000);
@@ -79,7 +90,7 @@ export const RenderLayers = (props) => {
         getPosition: d => d.coordinates,
         diskResolution: 21,
         radius: radiusColumns,
-        elevationScale: 300,
+        elevationScale: 400,
         getFillColor: d =>[12, 22, 215, 225],
         getElevation: d => elevation(d.active),
         }),
